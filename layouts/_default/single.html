@@ -1,12 +1,24 @@
 {{ define "main" }}
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-<!-- TODO: gallery -->
+
   <div class="content" itemprop="articleBody">
-  {{ if (eq .Type "search") }}
-    <!-- TODO: search https://gohugo.io/tools/search/ -->
-  {{ else }}
     {{ .Content }}
-  {{ end }}
   </div>
+
+  {{ with .Resources.ByType "text" }}
+    {{ range . }}
+      {{ if strings.HasPrefix . "album" }}
+        <div class="article-gallery">
+          {{ range $i, $url := strings.Split .Content "\n" }}
+            {{ $url := strings.Trim $url "\r\n" }}
+            <a class="gallery-item" href="{{ $url }}" rel="gallery_{{ $i }}">
+              <img src="{{ $url }}" itemprop="image" />
+            </a>
+          {{ end }}
+        </div>
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
 </article>
 {{ end }}

@@ -3,9 +3,10 @@
  */
 if (!!$.prototype.justifiedGallery) {
   var options = {
-    rowHeight: 140,
+    lastRow: "justify",
     margins: 4,
-    lastRow: "justify"
+    randomize: false,
+    rowHeight: 140
   };
   $(".article-gallery").justifiedGallery(options);
 }
