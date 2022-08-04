@@ -8,7 +8,17 @@ if (!!$.prototype.justifiedGallery) {
     randomize: false,
     rowHeight: 140
   };
-  $(".article-gallery").justifiedGallery(options);
+  $(".article-gallery").justifiedGallery(options).on('jg.complete', function () {
+    $(this).find('a').colorbox({
+        maxWidth : '80%',
+        maxHeight : '80%',
+        opacity : 0.8,
+        transition : 'elastic',
+        current : '',
+        scalePhotos: true,
+        scrolling: false
+    });
+  });
 }
 
 $(document).ready(function() {

@@ -11,7 +11,7 @@
         <div class="article-gallery">
           {{ range $i, $url := strings.Split .Content "\n" }}
             {{ $url := strings.Trim $url "\r\n" }}
-            <a class="gallery-item" href="{{ $url }}" rel="gallery_{{ $i }}">
+            <a class="gallery-item" href="{{ $url }}" rel="gallery">
               <img src="{{ $url }}" itemprop="image" />
             </a>
           {{ end }}
