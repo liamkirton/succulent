@@ -233,3 +233,48 @@ code {
 .article-gallery {
   margin: 2em 0 7em 0;
 }
+
+.thumbnail_grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.thumbnail_grid a {
+  background-image: none;
+  text-decoration: none;
+}
+.thumbnail_grid a:hover {
+  background-image: none;
+  text-decoration: none;
+}
+
+.thumbnail_item {
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+  width: 320px;
+  height: 320px;
+}
+
+.thumbnail_caption {
+  display: block;
+}
+
+.thumbnail_caption_content {
+  margin: auto;
+  color: $color-text;
+  text-decoration: none;
+
+  @include underline(5px, $color-text);
+
+  &:hover {
+    background-image: linear-gradient(transparent, transparent 4px, $color-link 4px, $color-link);
+  }
+}
+
+.thumbnail {
+  max-height: 280px;
+  max-width: 320px;
+}
+

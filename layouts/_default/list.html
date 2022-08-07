@@ -1,30 +1,52 @@
 {{ define "main"}}
 <div id="archive">
-  <ul class="post-list">
 
   {{ $pages := .Paginator.Pages }}
+  {{ $hasThumbnails := true }}
+  {{ range $pages }}
+    {{ if not .Params.thumbnail }}
+      {{ $hasThumbnails = false }}
+    {{ end }}
+  {{ end }}
+
   {{ if .Site.Params.showAllPostsArchive }}
     {{ $pages = .Pages }}
   {{ end }}
 
-  {{ range (sort $pages "Date" "desc") }}
-    {{ $pageYear := (.Date.Format "2006") }}
-    {{ if (ne $pageYear ($.Scratch.Get "year")) }}
-    {{ $.Scratch.Set "year" $pageYear }}
-    <h2>{{ $pageYear }}</h2>
+  {{ if $hasThumbnails }}
+    <div class="thumbnail_grid">
+      {{ range (sort $pages "Date" "desc") }}
+        <span class="thumbnail_grid_item">
+          <a href="{{ .Permalink }}">
+            <div class="thumbnail_item">
+              <img class="thumbnail" src="{{ .Params.thumbnail }}"></img>
+              <span class="thumbnail_caption"><span class="thumbnail_caption_content">{{ .Title }}</span></span>
+            </div>
+          </a>
+        </span>
+      {{ end }}
+    </div>
+  {{ else }}
+    <ul class="post-list">
+    {{ range (sort $pages "Date" "desc") }}
+      {{ $pageYear := (.Date.Format "2006") }}
+      {{ if (ne $pageYear ($.Scratch.Get "year")) }}
+      {{ $.Scratch.Set "year" $pageYear }}
+      <h2>{{ $pageYear }}</h2>
+      {{ end }}
+      <li class="post-item">
+        <div class="meta">
+          <time datetime="{{ time .Date }}" itemprop="datePublished">{{ .Date.Format (.Site.Params.dateFormat | default "2006-01-02") }}</time>
+        </div>
+        <span>
+          <a class="" href="{{ .Permalink }}">{{ if .Title }} {{ .Title }} {{ else }} Untitled {{ end }}</a>
+        </span>
+      </li>
+      {{ end }}
+    </ul>
+    {{ if eq .Site.Params.showAllPostsArchive false }}
+      {{ partial "pagination.html" . }}
     {{ end }}
-    <li class="post-item">
-      <div class="meta">
-        <time datetime="{{ time .Date }}" itemprop="datePublished">{{ .Date.Format (.Site.Params.dateFormat | default "2006-01-02") }}</time>
-      </div>
-      <span>    
-        <a class="" href="{{ .Permalink }}">{{ if .Title }} {{ .Title }} {{ else }} Untitled {{ end }}</a>
-      </span>
-    </li>
-    {{ end }}
-  </ul>
-  {{ if eq .Site.Params.showAllPostsArchive false }}
-    {{ partial "pagination.html" . }}
   {{ end }}
 </div>
 {{ end }}
